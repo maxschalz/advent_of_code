@@ -12,7 +12,7 @@ def main():
     """Main function."""
     data = load_input(FNAME)
     part1(data)
-    #part2(data)
+    part2(data)
 
     print("\nUnittests")
     unittest.main()
@@ -72,19 +72,19 @@ class Program:
     def run_program(self):
         current_inst = self.instructions[self.current_line]
         n_iter = 0
-        while (not current_inst.instruction_executed
-               and not self.program_ended):
+        while not current_inst.instruction_executed:
             current_inst.do_inst()
+            if self.program_ended:
+                break
             current_inst = self.instructions[self.current_line]
             n_iter += 1
             if n_iter > N_ITER_MAX:
                 raise RuntimeError("Too many iterations!")
-        
-        if current_inst.instruction_executed:
-            return False
 
         if self.program_ended:
             return True
+        if current_inst.instruction_executed:
+            return False
 
     def identify_inf_loop(self):
         exit_successfully = self.run_program()
@@ -102,7 +102,6 @@ class Program:
             if not swap_successful:
                 # The instruction was 'acc' and no swapping was done.
                 continue
-
             exit_successful = self.run_program()
             if exit_successful:
                 print(f"Ran program successfully! Value of the "
@@ -133,6 +132,9 @@ class Instruction:
         self.val = val
         self.program = program
         self.instruction_executed = False
+
+    def __repr__(self):
+        return f"{self.inst} {self.val:+}"
 
     def do_inst(self):
         """Perform this instruction in the program."""
