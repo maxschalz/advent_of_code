@@ -1,7 +1,9 @@
 # Advent of Code
 This repository contains my solutions to Advent of Code.<sup>Yes, I work on
-puzzles from an Advent calendar in July</sup> The scripts are written in Python
-and do not require any special packages apart from (maybe) NumPy.
+puzzles from an Advent calendar in July</sup>
+The scripts from 2020 are written in Python and do not require any special
+packages apart from (maybe) NumPy.
+The 2021 scripts are written in Julia.
 
 ## What is Advent of Code?
 From Advent of Code's [website](https://adventofcode.com/): 
