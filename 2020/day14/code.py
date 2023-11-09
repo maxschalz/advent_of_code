@@ -20,7 +20,6 @@ class Initialiser:
 
     def run_initialisation(self, version="v1"):
         for line_number, operation in enumerate(self.program):
-            print(f"In line {line_number}")
             operation = operation.strip()
             lhs, rhs = operation.split(" = ", maxsplit=1)
             if lhs.startswith("mas"):
@@ -45,7 +44,26 @@ class Initialiser:
         self.memory[mem_address] = updated_value
 
     def store_value_v2(self, value, mem_address):
-        pass
+        # Used ChatGPT here to get the recursion function right.
+        def get_mem_addresses(current_str):
+            if "X" not in current_str:
+                memories.append(current_str)
+            else:
+                get_mem_addresses(current_str.replace("X", "0", 1))
+                get_mem_addresses(current_str.replace("X", "1", 1))
+
+        binary_mem_address = list(bin(int(mem_address))[2:].zfill(N_BITS))
+
+        # Update the memory address with the mask.
+        for position, masked_bit in enumerate(self.mask):
+            if masked_bit == "0":
+                continue
+            binary_mem_address[position] = masked_bit
+
+        memories = []
+        get_mem_addresses("".join(binary_mem_address))
+        for m in memories:
+            self.memory[int("".join(m), 2)] = int(value)
 
     def get_sum(self):
         sum_ = sum(self.memory.values())
